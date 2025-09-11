@@ -1,7 +1,7 @@
 # CloudFront Origin Access Control
 resource "aws_cloudfront_origin_access_control" "frontend" {
-  name                              = "resume-auto-${var.environment}"
-  description                       = "OAC for resume-auto ${var.environment}"
+  name                              = "resumes-auto-${var.environment}"
+  description                       = "OAC for resumes-auto ${var.environment}"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -9,12 +9,12 @@ resource "aws_cloudfront_origin_access_control" "frontend" {
 
 # CloudFront distribution
 resource "aws_cloudfront_distribution" "frontend" {
-  comment = "resume-auto-${var.environment}"
+  comment = "resumes-auto-${var.environment}"
   
   origin {
     domain_name              = var.s3_bucket_domain_name
     origin_access_control_id = aws_cloudfront_origin_access_control.frontend.id
-    origin_id                = "S3-resume-auto-${var.environment}"
+    origin_id                = "S3-resumes-auto-${var.environment}"
   }
 
   enabled             = true
@@ -24,7 +24,7 @@ resource "aws_cloudfront_distribution" "frontend" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-resume-auto-${var.environment}"
+    target_origin_id = "S3-resumes-auto-${var.environment}"
 
     forwarded_values {
       query_string = false
@@ -46,7 +46,7 @@ resource "aws_cloudfront_distribution" "frontend" {
     path_pattern     = "/static/*"
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id = "S3-resume-auto-${var.environment}"
+    target_origin_id = "S3-resumes-auto-${var.environment}"
 
     forwarded_values {
       query_string = false
