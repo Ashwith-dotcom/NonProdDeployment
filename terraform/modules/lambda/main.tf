@@ -84,6 +84,6 @@ resource "aws_lambda_function_url" "backend_url" {
 
 # CloudWatch Log Group
 resource "aws_cloudwatch_log_group" "lambda_logs" {
-  name              = "/aws/lambda/${var.function_name}"
+  name              = "/aws/lambda/${var.function_name}-1"
   retention_in_days = 14
 }
